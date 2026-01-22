@@ -2,8 +2,40 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Fuzzy {
+
     public static void main(String[] args) {
-        ArrayList<String> list = new ArrayList<>();
+        class Task {
+            private boolean completed;
+            private String name;
+
+            public Task(String name) {
+                this.completed = false;
+                this.name = name;
+            }
+            public String getName() {
+                return this.name;
+            }
+            public boolean isCompleted() {
+                return this.completed;
+            }
+            public void complete() {
+                this.completed = true;
+            }
+            public void unmark() {
+                this.completed = false;
+            }
+            public String toString() {
+                String front = "";
+                if (this.isCompleted()) {
+                    front = "[X]";
+                }
+                else {
+                    front = "[ ]";
+                }
+                return front + " " + this.getName();
+            }
+        }
+        ArrayList<Task> list = new ArrayList<>();
         int totalTasks = 0;
 
         String line = "";
@@ -18,13 +50,28 @@ public class Fuzzy {
         while (!input.equals("bye")) {
             if (input.equals("list")) {
                 for (int i = 0; i < list.size(); i++) {
-                    System.out.println(list.get(i));
+                    Task curr = list.get(i);
+                    System.out.println((i+1) + "." + curr.toString());
                 }
-            } else {
+            }
+            else if (input.split(" ", 2)[0].equalsIgnoreCase("mark")){
+                int taskNum = Integer.parseInt(input.split(" ", 2)[1]);
+                Task curry = list.get(taskNum - 1);
+                curry.complete();
+                System.out.println("I marked it, madam:" + "\n" + curry.toString());
+            }
+            else if (input.split(" ", 2)[0].equalsIgnoreCase("unmark")) {
+                int taskNum = Integer.parseInt(input.split(" ", 2)[1]);
+                Task curry = list.get(taskNum - 1);
+                curry.unmark();
+                System.out.println("Ok, unmarked it bubs:" + "\n" + curry.toString());
+            }
+            else {
                 totalTasks++;
-                list.add(String.format("%d: %s", totalTasks, input));
+                Task inputO = new Task(input);
+                list.add(inputO);
                 System.out.println(line);
-                System.out.println("added: " + input);
+                System.out.println("added: " + inputO.getName());
                 System.out.println(line);
             }
             input = scanner.nextLine();
