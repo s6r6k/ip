@@ -67,6 +67,11 @@ class Event extends Task {
         return "[E]" + super.toString() + "(from: " + startTime + " to: " + endTime + ")";
     }
 }
+class EmptyDescException extends Exception {
+    public EmptyDescException(String command) {
+        super("Ermmm the description of " + command + " can't be blank la.");
+    }
+}
 public class Fuzzy {
 
     public static void main(String[] args) {
@@ -86,57 +91,62 @@ public class Fuzzy {
         String command = parts[0];
         String details = parts.length > 1? parts[1] : "";
         while (!command.equals("bye")) {
-            if (input.equals("list")) {
-                for (int i = 0; i < list.size(); i++) {
-                    Task curr = list.get(i);
-                    System.out.println((i+1) + "." + curr.toString());
-                }
-            }
-            else if (command.equals("mark")){
-                int taskNum = Integer.parseInt(input.split(" ", 2)[1]);
-                Task curry = list.get(taskNum - 1);
-                curry.complete();
-                System.out.println("I marked it, madam:" + "\n" + curry.toString());
-            }
-            else if (command.equals("unmark")) {
-                int taskNum = Integer.parseInt(input.split(" ", 2)[1]);
-                Task curry = list.get(taskNum - 1);
-                curry.unmark();
-                System.out.println("Ok, unmarked it bubs:" + "\n" + curry.toString());
-            }
-            else if (command.equals("todo")) {
-                totalTasks++;
-                ToDo td = new ToDo(details);
-                list.add(td);
-                System.out.println(line);
-                System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + td.toString() + "\n"
-                + "You have " + totalTasks + " tasks darling");
-                System.out.println(line);
-            }
-            else if (command.equals("deadline")) {
-                totalTasks++;
-                String by = details.split("/by", 2)[1].trim();
-                String deets = details.split("/by", 2)[0].trim();
-                Deadline dl = new Deadline(by, deets);
-                list.add(dl);
-                System.out.println(line);
-                System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + dl.toString() + "\n"
-                        + "You have " + totalTasks + " tasks darling");
-                System.out.println(line);
+            try {
+                if (input.equals("list")) {
+                    for (int i = 0; i < list.size(); i++) {
+                        Task curr = list.get(i);
+                        System.out.println((i + 1) + "." + curr.toString());
+                    }
+                } else if(!(command.equals("mark") || command.equals("unmark") || command.equals("todo") || command.equals("deadline") || command.equals("event"))){
+                    System.out.println("Means?");
+                } else if (details.trim().equals("")) {
+                    throw new EmptyDescException(command);
+                } else if (command.equals("mark")) {
+                    int taskNum = Integer.parseInt(input.split(" ", 2)[1]);
+                    Task curry = list.get(taskNum - 1);
+                    curry.complete();
+                    System.out.println("I marked it, madam:" + "\n" + curry.toString());
+                } else if (command.equals("unmark")) {
+                    int taskNum = Integer.parseInt(input.split(" ", 2)[1]);
+                    Task curry = list.get(taskNum - 1);
+                    curry.unmark();
+                    System.out.println("Ok, unmarked it bubs:" + "\n" + curry.toString());
+                } else if (command.equals("todo")) {
+                    totalTasks++;
+                    ToDo td = new ToDo(details);
+                    list.add(td);
+                    System.out.println(line);
+                    System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + td.toString() + "\n"
+                            + "You have " + totalTasks + " tasks darling");
+                    System.out.println(line);
+                } else if (command.equals("deadline")) {
+                    totalTasks++;
+                    String by = details.split("/by", 2)[1].trim();
+                    String deets = details.split("/by", 2)[0].trim();
+                    Deadline dl = new Deadline(by, deets);
+                    list.add(dl);
+                    System.out.println(line);
+                    System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + dl.toString() + "\n"
+                            + "You have " + totalTasks + " tasks darling");
+                    System.out.println(line);
 
-            }
-            else if (command.equals("event")) {
-                totalTasks++;
-                String afterFrom = details.split("/from", 2)[1];
-                String beforeFrom = details.split("/from", 2)[0];
-                String start = afterFrom.split("/to", 2)[0];
-                String to = afterFrom.split("/to", 2)[1];
-                Event ev = new Event(start, to, beforeFrom);
-                list.add(ev);
-                System.out.println(line);
-                System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + ev.toString() + "\n"
-                        + "You have " + totalTasks + " tasks darling");
-                System.out.println(line);
+                } else if (command.equals("event")) {
+                    totalTasks++;
+                    String afterFrom = details.split("/from", 2)[1];
+                    String beforeFrom = details.split("/from", 2)[0];
+                    String start = afterFrom.split("/to", 2)[0];
+                    String to = afterFrom.split("/to", 2)[1];
+                    Event ev = new Event(start, to, beforeFrom);
+                    list.add(ev);
+                    System.out.println(line);
+                    System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + ev.toString() + "\n"
+                            + "You have " + totalTasks + " tasks darling");
+                    System.out.println(line);
+                } else {
+                    System.out.println("Means?");
+                }
+            } catch (EmptyDescException e){
+                System.out.println(e.getMessage());
             }
             input = scanner.nextLine();
             parts = input.split(" ", 2);
