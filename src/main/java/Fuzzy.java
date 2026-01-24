@@ -97,7 +97,8 @@ public class Fuzzy {
                         Task curr = list.get(i);
                         System.out.println((i + 1) + "." + curr.toString());
                     }
-                } else if(!(command.equals("mark") || command.equals("unmark") || command.equals("todo") || command.equals("deadline") || command.equals("event"))){
+                } else if(!(command.equals("mark") || command.equals("unmark") || command.equals("todo") || command.equals("deadline") || command.equals("event")
+                || command.equals("remove"))){
                     System.out.println("Means?");
                 } else if (details.trim().equals("")) {
                     throw new EmptyDescException(command);
@@ -142,6 +143,14 @@ public class Fuzzy {
                     System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + ev.toString() + "\n"
                             + "You have " + totalTasks + " tasks darling");
                     System.out.println(line);
+                } else if(command.equals("remove")) {
+                    totalTasks--;
+                    int numOfTask = Integer.parseInt(details.trim());
+                    Task taski = list.get(numOfTask - 1);
+                    list.remove(numOfTask - 1);
+                    System.out.println("Okay bubs I removed: " + taski.toString() + "Now you have " + totalTasks + " tasks" +
+                            " tasks in the list");
+
                 } else {
                     System.out.println("Means?");
                 }
