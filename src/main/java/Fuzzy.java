@@ -109,7 +109,7 @@ public class Fuzzy {
                 ToDo td = new ToDo(details);
                 list.add(td);
                 System.out.println(line);
-                System.out.println("Alrighty, added it: " + "\n" + totalTasks + "." + td.toString() + "\n"
+                System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + td.toString() + "\n"
                 + "You have " + totalTasks + " tasks darling");
                 System.out.println(line);
             }
@@ -120,7 +120,7 @@ public class Fuzzy {
                 Deadline dl = new Deadline(by, deets);
                 list.add(dl);
                 System.out.println(line);
-                System.out.println("Alrighty, added it: " + "\n" + totalTasks + "." + dl.toString() + "\n"
+                System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + dl.toString() + "\n"
                         + "You have " + totalTasks + " tasks darling");
                 System.out.println(line);
 
@@ -134,7 +134,7 @@ public class Fuzzy {
                 Event ev = new Event(start, to, beforeFrom);
                 list.add(ev);
                 System.out.println(line);
-                System.out.println("Alrighty, added it: " + "\n" + totalTasks + "." + ev.toString() + "\n"
+                System.out.println("Alrighty, added it:" + "\n" + totalTasks + "." + ev.toString() + "\n"
                         + "You have " + totalTasks + " tasks darling");
                 System.out.println(line);
             }
