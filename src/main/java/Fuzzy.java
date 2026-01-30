@@ -1,8 +1,11 @@
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 class Task {
     private boolean completed;
@@ -47,14 +50,18 @@ class ToDo extends Task {
     }
 }
 class Deadline extends Task {
-    String deadline;
+    LocalDate deadline;
     public Deadline(String dl, String name) {
         super(name);
-        this.deadline = dl;
+        try {
+            deadline = LocalDate.parse(dl);
+        } catch(DateTimeParseException e) {
+            throw new IllegalArgumentException("Deadline needs to be in the format yyyy-mm-dd" + dl);
+        }
     }
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + deadline + ")";
+        return "[D]" + super.toString() + " (by: " + deadline.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
     }
 }
 class Event extends Task {
@@ -89,7 +96,7 @@ public class Fuzzy {
                 if(taski instanceof ToDo) type = "T";
                 else if(taski instanceof Deadline) {
                     type = "D";
-                    extra = ((Deadline) taski).deadline;
+                    extra = ((Deadline) taski).deadline.toString();
                 }
                 else if(taski instanceof Event) {
                     type = "E";
