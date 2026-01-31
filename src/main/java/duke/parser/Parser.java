@@ -1,5 +1,8 @@
+package duke.parser;
+import duke.exception.EmptyDescException;
+
 public class Parser {
-    public static ParsedInput parse(String input) throws EmptyDescException{
+    public static ParsedInput parse(String input) throws EmptyDescException {
         input = input.trim();
         if(input.isEmpty()) {
             throw new EmptyDescException("command");
@@ -26,22 +29,22 @@ public class Parser {
         }
 
     }
-}
 
-class ParsedInput {
-    private final String command;
-    private final String details;
+    public static class ParsedInput {
+        private final String command;
+        private final String details;
 
-    public ParsedInput(String command, String details) {
-        this.command = command;
-        this.details = details;
-    }
+        public ParsedInput(String command, String details) {
+            this.command = command;
+            this.details = details;
+        }
 
-    public String getCommand() {
-        return command;
-    }
+        public String getCommand() {
+            return command;
+        }
 
-    public String getDetails() {
-        return details;
+        public String getDetails() {
+            return details;
+        }
     }
 }

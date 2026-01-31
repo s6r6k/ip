@@ -1,8 +1,11 @@
+package duke.storage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import duke.task.*;
 
 public class Storage {
 
@@ -33,7 +36,7 @@ public class Storage {
                     extra = ((Deadline) taski).deadline.toString();
                 } else if (taski instanceof Event) {
                     type = "E";
-                    extra = ((Event) taski).startTime + "-" + ((Event) taski).endTime;
+                    extra = ((Event) taski).getStartTime() + "-" + ((Event) taski).getEndTime();
                 }
 
                 int complete = taski.isCompleted() ? 1 : 0;
