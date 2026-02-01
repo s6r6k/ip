@@ -1,88 +1,11 @@
-import java.time.format.DateTimeParseException;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+package duke;
+import duke.Exception.EmptyDescException;
+import duke.Parser.ParsedInput;
+import duke.Parser.Parser;
+import duke.Task.*;
+import duke.Storage.Storage;
+import duke.Ui.Ui;
 
-class Task {
-    private boolean completed;
-    private String name;
-    private static int totalTasks;
-
-    public Task(String name) {
-        this.completed = false;
-        this.name = name;
-    }
-    public String getName() {
-        return this.name;
-    }
-    public boolean isCompleted() {
-        return this.completed;
-    }
-    public void complete() {
-        this.completed = true;
-    }
-    public void unmark() {
-        this.completed = false;
-    }
-
-    public String toString() {
-        String front = "";
-        if (this.isCompleted()) {
-            front = "[X]";
-        }
-        else {
-            front = "[ ]";
-        }
-        return front + " " + this.getName();
-    }
-}
-class ToDo extends Task {
-    public ToDo(String name) {
-        super(name);
-    }
-    @Override
-    public String toString() {
-        return "[T]" + super.toString();
-    }
-}
-class Deadline extends Task {
-    LocalDate deadline;
-    public Deadline(String dl, String name) {
-        super(name);
-        try {
-            deadline = LocalDate.parse(dl);
-        } catch(DateTimeParseException e) {
-            throw new IllegalArgumentException("Deadline needs to be in the format yyyy-mm-dd" + dl);
-        }
-    }
-    @Override
-    public String toString() {
-        return "[D]" + super.toString() + " (by: " + deadline.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ")";
-    }
-}
-class Event extends Task {
-    String startTime;
-    String endTime;
-    public Event(String startTime, String endTime, String name) {
-        super(name);
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
-    @Override
-    public String toString() {
-        return "[E]" + super.toString() + "(from: " + startTime + " to: " + endTime + ")";
-    }
-}
-class EmptyDescException extends Exception {
-    public EmptyDescException(String command) {
-        super("Ermmm the description of " + command + " can't be blank la.");
-    }
-}
 public class Fuzzy {
     public static void main(String[] args) {
         Storage storage = new Storage("./data/fuzzy.txt"); //you cant access instance lvl field outside static class

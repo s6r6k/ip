@@ -1,3 +1,6 @@
+package duke.Storage;
+import duke.Task.*;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,10 +33,10 @@ public class Storage {
                     type = "T";
                 } else if (taski instanceof Deadline) {
                     type = "D";
-                    extra = ((Deadline) taski).deadline.toString();
+                    extra = ((Deadline) taski).getDeadline().toString();
                 } else if (taski instanceof Event) {
                     type = "E";
-                    extra = ((Event) taski).startTime + "-" + ((Event) taski).endTime;
+                    extra = ((Event) taski).getStartTime() + "-" + ((Event) taski).getEndTime();
                 }
 
                 int complete = taski.isCompleted() ? 1 : 0;

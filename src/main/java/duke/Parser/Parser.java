@@ -1,3 +1,8 @@
+package duke.Parser;
+
+import duke.Exception.EmptyDescException;
+import duke.Parser.ParsedInput;
+
 public class Parser {
     public static ParsedInput parse(String input) throws EmptyDescException{
         input = input.trim();
@@ -28,20 +33,3 @@ public class Parser {
     }
 }
 
-class ParsedInput {
-    private final String command;
-    private final String details;
-
-    public ParsedInput(String command, String details) {
-        this.command = command;
-        this.details = details;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-}

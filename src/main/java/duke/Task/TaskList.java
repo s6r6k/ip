@@ -1,3 +1,7 @@
+package duke.Task;
+
+import duke.Task.Task;
+
 import java.util.ArrayList;
 public class TaskList {
     private ArrayList<Task> tasks;
@@ -17,6 +21,7 @@ public class TaskList {
     public int size() {
         return tasks.size();
     }
+
     public Task get(int i) {
         return tasks.get(i);
     }
