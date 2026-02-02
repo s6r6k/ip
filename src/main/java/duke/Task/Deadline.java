@@ -4,8 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Uses LocalDate class to accept a specific type of String
+ * IllegalArgExcep thrown if dl given by user is not in yyyy-mm-dd format
+ */
 public class Deadline extends Task {
-    LocalDate deadline;
+    private LocalDate deadline;
     public Deadline(String dl, String name) {
         super(name);
         try {

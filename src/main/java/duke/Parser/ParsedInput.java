@@ -1,5 +1,7 @@
 package duke.Parser;
 
+/** this class is a container for user input, breaking it down to its command & details
+ */
 public class ParsedInput {
     private final String command;
     private final String details;

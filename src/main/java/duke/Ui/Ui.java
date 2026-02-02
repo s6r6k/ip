@@ -1,6 +1,10 @@
 package duke.Ui;
 import java.util.Scanner;
 
+/**
+ * Handles printing of statements to the screen and reads user input
+ * Incomplete
+ */
  public class Ui {
      private Scanner scanner = new Scanner(System.in);
 

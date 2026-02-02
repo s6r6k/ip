@@ -3,6 +3,11 @@ package duke.Parser;
 import duke.Exception.EmptyDescException;
 import duke.Parser.ParsedInput;
 
+/** creates ParsedInput object out of user input
+ * throws EmptyDescException if command is empty
+ *return PI object with command as "unknown" if its unknown
+ * rightfully declares exception
+ */
 public class Parser {
     public static ParsedInput parse(String input) throws EmptyDescException{
         input = input.trim();

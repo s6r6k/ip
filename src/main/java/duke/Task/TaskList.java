@@ -1,8 +1,12 @@
 package duke.Task;
 
 import duke.Task.Task;
-
 import java.util.ArrayList;
+
+/**
+ * A container for Task objects
+ * Provides basic operations like add remove size and get
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 

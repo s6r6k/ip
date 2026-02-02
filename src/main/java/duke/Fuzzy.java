@@ -6,6 +6,9 @@ import duke.Task.*;
 import duke.Storage.Storage;
 import duke.Ui.Ui;
 
+/**
+ * Incomplete in terms of class extracting
+ */
 public class Fuzzy {
     public static void main(String[] args) {
         Storage storage = new Storage("./data/fuzzy.txt"); //you cant access instance lvl field outside static class

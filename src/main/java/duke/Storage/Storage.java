@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * @param filePath the path of the file where tasks will be saved and loaded
+ */
 public class Storage {
 
     private final String filePath;
@@ -15,6 +18,11 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Saves all tasks in the given TaskList to the file
+     * Create "./data" folder if non-existent.
+     * @param list the TaskList containing tasks to save
+     */
     public void saveTasks(TaskList list) {
         try {
             File folder = new File("./data");
@@ -55,6 +63,9 @@ public class Storage {
         }
     }
 
+    /**
+     * @return an ArrayList of Tasks loaded from the file
+     */
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> list = new ArrayList<>();
         File file = new File(filePath);
