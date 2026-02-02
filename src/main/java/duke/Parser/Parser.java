@@ -18,21 +18,22 @@ public class Parser {
         String command = parts[0];
         String details = parts.length > 1? parts[1].trim(): "";
         switch(command) {
-            case "list":
-            case "bye":
-                return new ParsedInput(command, "");
-            case "mark":
-            case "unmark":
-            case "todo":
-            case "deadline":
-            case "event":
-            case "remove":
-                if(details.isEmpty()) {
-                    throw new EmptyDescException(command);
-                }
-                return new ParsedInput(command, details);
-            default:
-                return new ParsedInput("unknown", input);
+        case "list":
+        case "bye":
+            return new ParsedInput(command, "");
+        case "mark":
+        case "unmark":
+        case "todo":
+        case "deadline":
+        case "event":
+        case "remove":
+        case "find":
+            if(details.isEmpty()) {
+                throw new EmptyDescException(command);
+            }
+            return new ParsedInput(command, details);
+        default:
+            return new ParsedInput("unknown", input);
         }
 
     }

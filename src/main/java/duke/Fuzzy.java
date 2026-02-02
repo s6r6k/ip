@@ -94,6 +94,19 @@ public class Fuzzy {
                     System.out.println("Okay bubs I removed: " + taski.toString() + "Now you have " + list.size() + " tasks" +
                             " tasks in the list");
 
+                } else if(command.equals("find")) {
+                    String keyword = details;
+                    ui.showLine();
+                    System.out.println("These match your request, Ma'am:");
+                    int count = 0;
+                    for(int i = 0; i < list.size(); i++) {
+                        Task task = list.get(i);
+                        if(task.getName().contains(keyword)) {
+                            count++;
+                            System.out.println(count + "." + task.toString());
+                        }
+                    }
+                    ui.showLine();
                 } else {
                     System.out.println("Means?");
                 }
