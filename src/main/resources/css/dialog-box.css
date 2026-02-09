@@ -1,0 +1,13 @@
+.label {
+    -fx-background-color: linear-gradient(to bottom right, #00ffbf, #00ddff);
+    -fx-background-radius: 10px 10px 0px 10px;
+    -fx-padding: 10px;
+    -fx-text-fill: black;
+}
+.reply-label {
+    -fx-background-color: linear-gradient(to bottom left, #ff9cb4, #ffccd5);
+    -fx-background-radius: 10px 10px 10px 0px;
+}
+#displayPicture {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0);
+}

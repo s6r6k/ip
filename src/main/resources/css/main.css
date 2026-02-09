@@ -1,0 +1,13 @@
+.root {
+    -fx-background-color: #edfff2;
+}
+.button {
+    -fx-background-color: mediumspringgreen;
+    -fx-font: italic bold 16px "Arial";
+}
+.button:hover {
+    -fx-background-color: cyan;
+}
+.scroll-pane, .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
