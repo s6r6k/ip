@@ -2,7 +2,7 @@ package duke.Task;
 
 public class Task {
     private boolean completed;
-    private String name;
+    private final String name;
     private static int totalTasks;
 
     public Task(String name) {
@@ -22,12 +22,12 @@ public class Task {
         this.completed = false;
     }
 
+    @Override
     public String toString() {
         String front = "";
         if (this.isCompleted()) {
             front = "[X]";
-        }
-        else {
+        } else {
             front = "[ ]";
         }
         return front + " " + this.getName();

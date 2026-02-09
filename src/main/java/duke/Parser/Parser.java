@@ -11,13 +11,13 @@ import duke.Parser.ParsedInput;
 public class Parser {
     public static ParsedInput parse(String input) throws EmptyDescException{
         input = input.trim();
-        if(input.isEmpty()) {
+        if (input.isEmpty()) {
             throw new EmptyDescException("command");
         }
         String[] parts = input.split(" ", 2);
         String command = parts[0];
-        String details = parts.length > 1? parts[1].trim(): "";
-        switch(command) {
+        String details = parts.length > 1 ? parts[1].trim(): "";
+        switch (command) {
         case "list":
         case "bye":
             return new ParsedInput(command, "");
@@ -28,7 +28,7 @@ public class Parser {
         case "event":
         case "remove":
         case "find":
-            if(details.isEmpty()) {
+            if (details.isEmpty()) {
                 throw new EmptyDescException(command);
             }
             return new ParsedInput(command, details);

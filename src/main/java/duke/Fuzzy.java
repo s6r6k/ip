@@ -2,8 +2,8 @@ package duke;
 import duke.Exception.EmptyDescException;
 import duke.Parser.ParsedInput;
 import duke.Parser.Parser;
-import duke.Task.*;
 import duke.Storage.Storage;
+import duke.Task.*;
 import duke.Ui.Ui;
 
 /**
@@ -32,13 +32,12 @@ public class Fuzzy {
                 if (command.equals("bye")) {
                     isExit = true;
                     continue;
-                }
-                else if (command.equals("list")) {
+                } else if (command.equals("list")) {
                     for (int i = 0; i < list.size(); i++) {
                         Task curr = list.get(i);
                         System.out.println((i + 1) + "." + curr.toString());
                     }
-                } else if(command.equals("unknown")) {
+                } else if (command.equals("unknown")) {
                     System.out.println("Means?");
                 } else if (command.equals("mark")) {
                     int taskNum = Integer.parseInt(details);
@@ -86,22 +85,22 @@ public class Fuzzy {
                     System.out.println("Alrighty, added it:" + "\n" + list.size() + "." + ev.toString() + "\n"
                             + "You have " + list.size() + " tasks darling");
                     System.out.println(line);
-                } else if(command.equals("remove")) {
+                } else if (command.equals("remove")) {
                     int numOfTask = Integer.parseInt(details);
                     Task taski = list.get(numOfTask - 1);
                     list.remove(numOfTask - 1);
                     storage.saveTasks(list);
-                    System.out.println("Okay bubs I removed: " + taski.toString() + "Now you have " + list.size() + " tasks" +
-                            " tasks in the list");
+                    System.out.println("Okay bubs I removed: " + taski.toString() + "Now you have "
+                            + list.size() + " tasks" + " tasks in the list");
 
-                } else if(command.equals("find")) {
+                } else if (command.equals("find")) {
                     String keyword = details;
                     ui.showLine();
                     System.out.println("These match your request, Ma'am:");
                     int count = 0;
-                    for(int i = 0; i < list.size(); i++) {
+                    for (int i = 0; i < list.size(); i++) {
                         Task task = list.get(i);
-                        if(task.getName().contains(keyword)) {
+                        if (task.getName().contains(keyword)) {
                             count++;
                             System.out.println(count + "." + task.toString());
                         }
@@ -110,7 +109,7 @@ public class Fuzzy {
                 } else {
                     System.out.println("Means?");
                 }
-            } catch (EmptyDescException e){
+            } catch (EmptyDescException e) {
                 System.out.println(e.getMessage());
             }
         }
