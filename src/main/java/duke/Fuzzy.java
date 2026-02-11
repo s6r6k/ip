@@ -52,7 +52,7 @@ public class Fuzzy {
             // Add your other if-else logic here (deadline, event, etc.)
             // but return Strings instead of System.out.println
 
-            return "Means?";
+            return "What does that mean babe?";
         } catch (Exception e) {
             return e.getMessage();
         }
