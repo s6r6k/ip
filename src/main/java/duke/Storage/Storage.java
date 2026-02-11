@@ -15,6 +15,7 @@ public class Storage {
     private final String filePath;
 
     public Storage(String filePath) {
+        assert filePath != null : "Filepath shld not be null";
         this.filePath = filePath;
     }
 
@@ -23,7 +24,9 @@ public class Storage {
      * Create "./data" folder if non-existent.
      * @param list the TaskList containing tasks to save
      */
+
     public void saveTasks(TaskList list) {
+        assert list != null : "TaskList should not be null";
         try {
             File folder = new File("./data");
             if (!folder.exists()) {
@@ -34,6 +37,7 @@ public class Storage {
 
             for (int i = 0; i < list.size(); i++) {
                 Task taski = list.get(i);
+                assert taski != null : "Task at index " + i + " should not be null";
                 String type = "";
                 String extra = "";
 

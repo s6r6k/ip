@@ -10,7 +10,6 @@ public class Fuzzy {
     private Storage storage;
     private TaskList list;
     private Ui ui;
-
     public Fuzzy() {
         storage = new Storage("./data/fuzzy.txt");
         list = new TaskList(storage.loadTasks());
@@ -24,7 +23,9 @@ public class Fuzzy {
     public String getResponse(String input) {
         try {
             ParsedInput pi = Parser.parse(input);
+            assert pi != null : "Input should not be null after parsing";
             String command = pi.getCommand();
+            assert command != null && !command.isEmpty() : "Command must not be null or empty";
             String details = pi.getDetails();
 
             if (command.equals("bye")) {
@@ -42,6 +43,7 @@ public class Fuzzy {
                 storage.saveTasks(list);
                 return "I marked it, madam:\n" + curry.toString();
             } else if (command.equals("todo")) {
+                assert details != null && !details.isBlank() : "Details required for todo command";
                 ToDo td = new ToDo(details);
                 list.add(td);
                 storage.saveTasks(list);
@@ -50,7 +52,7 @@ public class Fuzzy {
             // Add your other if-else logic here (deadline, event, etc.)
             // but return Strings instead of System.out.println
 
-            return "Means?";
+            return "What does that mean babe?";
         } catch (Exception e) {
             return e.getMessage();
         }

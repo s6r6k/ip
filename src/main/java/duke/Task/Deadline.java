@@ -12,6 +12,8 @@ public class Deadline extends Task {
     private LocalDate deadline;
     public Deadline(String dl, String name) {
         super(name);
+        assert name != null : "Task name should not be null";
+        assert dl != null : "Deadline string should not be null";
         try {
             deadline = LocalDate.parse(dl);
         } catch(DateTimeParseException e) {

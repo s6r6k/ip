@@ -10,12 +10,14 @@ import duke.Parser.ParsedInput;
  */
 public class Parser {
     public static ParsedInput parse(String input) throws EmptyDescException{
-        input = input.trim();
         if(input.isEmpty()) {
             throw new EmptyDescException("command");
         }
+        input = input.trim();
+        assert !input.isEmpty() : "Input is empty!";
         String[] parts = input.split(" ", 2);
         String command = parts[0];
+        assert parts.length >= 1 : "Split should produce at least one element";
         String details = parts.length > 1? parts[1].trim(): "";
         switch(command) {
         case "list":
