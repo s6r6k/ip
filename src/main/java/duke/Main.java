@@ -19,11 +19,9 @@ public class Main extends Application {
             Scene scene = new Scene(ap);
             stage.setScene(scene);
 
-            // Setting window limits as requested
             stage.setMinHeight(220);
             stage.setMinWidth(417);
 
-            // Pass the Fuzzy instance to the controller
             fxmlLoader.<MainWindow>getController().setFuzzy(fuzzy);
             stage.show();
         } catch (IOException e) {

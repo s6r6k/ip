@@ -37,7 +37,7 @@ public class Storage {
 
             for (int i = 0; i < list.size(); i++) {
                 Task taski = list.get(i);
-                assert taski != null : "Task at index " + i + " should not be null";
+                assert taski != null : "Task at index " + i + " should not be null baby";
                 String type = "";
                 String extra = "";
 

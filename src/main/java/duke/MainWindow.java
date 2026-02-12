@@ -26,6 +26,9 @@ public class MainWindow extends AnchorPane {
 
     public void setFuzzy(Fuzzy f) {
         this.fuzzy = f;
+        dialogContainer.getChildren().add(
+                DialogBox.getDukeDialog(fuzzy.getGreeting(), dukeImage)
+        );
     }
 
     @FXML

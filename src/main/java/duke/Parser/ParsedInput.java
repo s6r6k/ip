@@ -1,21 +1,21 @@
 package duke.Parser;
 
-/** this class is a container for user input, breaking it down to its command & details
+/**
+ * Represents the result of parsing user input.
+ * This class acts as a container for the command type and its associated details.
  */
 public class ParsedInput {
-    private final String command;
-    private final String details;
+    private final Parser.CommandType commandType;
+    private final String argumentDetails; // More descriptive than 'details'
 
-    public ParsedInput(String command, String details) {
-        this.command = command;
-        this.details = details;
+    public ParsedInput(Parser.CommandType commandType, String argumentDetails) {
+        this.commandType = commandType;
+        this.argumentDetails = argumentDetails;
     }
-
-    public String getCommand() {
-        return command;
+    public Parser.CommandType getCommandType() {
+        return commandType;
     }
-
     public String getDetails() {
-        return details;
+        return argumentDetails;
     }
 }
