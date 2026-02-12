@@ -1,5 +1,5 @@
 package duke;
-import duke.Exception.EmptyDescException;
+
 import duke.Parser.ParsedInput;
 import duke.Parser.Parser;
 import duke.Task.*;
@@ -7,54 +7,90 @@ import duke.Storage.Storage;
 import duke.Ui.Ui;
 
 public class Fuzzy {
-    private Storage storage;
-    private TaskList list;
-    private Ui ui;
+
+    private static final String DATA_FILE_PATH = "./data/fuzzy.txt";
+
+    private static final String MESSAGE_GOODBYE = "See you later! I'll miss you.";
+    private static final String MESSAGE_UNKNOWN = "I'm sorry madam, I don't understand that command.";
+    private static final String MESSAGE_ERROR = "Baby smth is wrong. Check if you put the details";
+    private static final String MESSAGE_MARK_SUCCESS = "Amazing! Well done baby, I've marked it as done:\n";
+    private static final String MESSAGE_TODO_ADDED = "Ok madam. I've added this task:\n";
+
+    private final Storage storage;
+    private final TaskList list;
+    private final Ui ui;
+
     public Fuzzy() {
-        storage = new Storage("./data/fuzzy.txt");
+        storage = new Storage(DATA_FILE_PATH);
         list = new TaskList(storage.loadTasks());
         ui = new Ui();
     }
 
-    /**
-     * This method replaces the 'while' loop.
-     * It takes the user's input and returns Fuzzy's response.
-     */
+    public String getGreeting() {
+        return "Hello Madam! I'm Fuzzy.\n At your service😘";
+    }
+
     public String getResponse(String input) {
         try {
-            ParsedInput pi = Parser.parse(input);
-            assert pi != null : "Input should not be null after parsing";
-            String command = pi.getCommand();
-            assert command != null && !command.isEmpty() : "Command must not be null or empty";
-            String details = pi.getDetails();
-
-            if (command.equals("bye")) {
-                return "Alright, see you again.";
-            } else if (command.equals("list")) {
-                StringBuilder sb = new StringBuilder("Here are your tasks, darling:\n");
-                for (int i = 0; i < list.size(); i++) {
-                    sb.append((i + 1)).append(".").append(list.get(i).toString()).append("\n");
-                }
-                return sb.toString();
-            } else if (command.equals("mark")) {
-                int taskNum = Integer.parseInt(details);
-                Task curry = list.get(taskNum - 1);
-                curry.complete();
-                storage.saveTasks(list);
-                return "I marked it, madam:\n" + curry.toString();
-            } else if (command.equals("todo")) {
-                assert details != null && !details.isBlank() : "Details required for todo command";
-                ToDo td = new ToDo(details);
-                list.add(td);
-                storage.saveTasks(list);
-                return "Alrighty, added it:\n" + td.toString() + "\nYou have " + list.size() + " tasks darling";
+            ParsedInput parsedInput = Parser.parse(input);
+            if (parsedInput == null) {
+                return MESSAGE_UNKNOWN;
             }
-            // Add your other if-else logic here (deadline, event, etc.)
-            // but return Strings instead of System.out.println
 
-            return "What does that mean babe?";
+            return handleCommand(parsedInput);
+
+        } catch (NumberFormatException e) {
+            return "Bubs needa give a valid task number.";
+        } catch (IndexOutOfBoundsException e) {
+            return "babe this task no. does not exit man.";
         } catch (Exception e) {
-            return e.getMessage();
+            return MESSAGE_ERROR;
         }
+    }
+    private String handleCommand(ParsedInput parsedInput) {
+        Parser.CommandType type = parsedInput.getCommandType();
+        String details = parsedInput.getDetails();
+
+        switch (type) {
+        case BYE:
+            return MESSAGE_GOODBYE;
+
+        case LIST:
+            return list.getFormattedTasks();
+
+        case MARK:
+            return handleMark(details);
+
+        case TODO:
+            return handleTodo(details);
+
+        case UNKNOWN:
+            return MESSAGE_UNKNOWN;
+
+        default:
+            return MESSAGE_ERROR;
+        }
+    }
+    private String handleMark(String details) {
+        int taskIndex = Integer.parseInt(details) - 1;
+        Task taskToMark = list.get(taskIndex);
+
+        taskToMark.complete();
+        storage.saveTasks(list);
+
+        return MESSAGE_MARK_SUCCESS + taskToMark;
+    }
+
+    private String handleTodo(String details) {
+        if (details == null || details.isBlank()) {
+            return "Babe the todo description cant be empty.";
+        }
+
+        ToDo newTodo = new ToDo(details);
+        list.add(newTodo);
+        storage.saveTasks(list);
+
+        return MESSAGE_TODO_ADDED + newTodo
+                + "\nNow you have " + list.size() + " tasks in the list.";
     }
 }

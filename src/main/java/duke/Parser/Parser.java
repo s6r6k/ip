@@ -1,43 +1,48 @@
 package duke.Parser;
 
 import duke.Exception.EmptyDescException;
-import duke.Parser.ParsedInput;
 
-/** creates ParsedInput object out of user input
- * throws EmptyDescException if command is empty
- *return PI object with command as "unknown" if its unknown
- * rightfully declares exception
+/**
+ * Creates ParsedInput object out of user input.
+ * High-level logic handles the transformation from String to CommandType.
  */
 public class Parser {
-    public static ParsedInput parse(String input) throws EmptyDescException{
-        if(input.isEmpty()) {
+    public enum CommandType {
+        BYE, LIST, MARK, UNMARK, TODO, DEADLINE, EVENT, REMOVE, FIND, UNKNOWN
+    }
+
+    public static ParsedInput parse(String input) throws EmptyDescException {
+        if (input.isEmpty()) {
             throw new EmptyDescException("command");
         }
-        input = input.trim();
-        assert !input.isEmpty() : "Input is empty!";
-        String[] parts = input.split(" ", 2);
-        String command = parts[0];
-        assert parts.length >= 1 : "Split should produce at least one element";
-        String details = parts.length > 1? parts[1].trim(): "";
-        switch(command) {
-        case "list":
-        case "bye":
-            return new ParsedInput(command, "");
-        case "mark":
-        case "unmark":
-        case "todo":
-        case "deadline":
-        case "event":
-        case "remove":
-        case "find":
-            if(details.isEmpty()) {
-                throw new EmptyDescException(command);
-            }
-            return new ParsedInput(command, details);
-        default:
-            return new ParsedInput("unknown", input);
+
+        String trimmedInput = input.trim(); // Using explanatory name
+        assert !trimmedInput.isEmpty() : "Input is empty, yaar!";
+
+        String[] parts = trimmedInput.split(" ", 2);
+        String commandWord = parts[0];
+        String details = parts.length > 1 ? parts[1].trim() : "";
+
+        CommandType type = getCommandType(commandWord);
+
+        if (type == CommandType.UNKNOWN) {
+            return new ParsedInput(type, trimmedInput);
         }
 
+        if (requiresDetails(type) && details.isEmpty()) {
+            throw new EmptyDescException(commandWord);
+        }
+
+        return new ParsedInput(type, details);
+    }
+    private static CommandType getCommandType(String commandWord) {
+        try {
+            return CommandType.valueOf(commandWord.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return CommandType.UNKNOWN;
+        }
+    }
+    private static boolean requiresDetails(CommandType type) {
+        return !(type == CommandType.LIST || type == CommandType.BYE);
     }
 }
-
