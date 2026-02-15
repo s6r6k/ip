@@ -1,6 +1,5 @@
 package duke.Task;
 
-import duke.Task.Task;
 import java.util.ArrayList;
 
 /**
@@ -34,8 +33,10 @@ public class TaskList {
         tasks.add(task);
     }
 
-    public void remove(int index) {
+    public Task remove(int index) {
+        Task taski = tasks.get(index);
         tasks.remove(index);
+        return taski;
     }
 
     public int size() {
@@ -45,4 +46,28 @@ public class TaskList {
     public Task get(int index) {
         return tasks.get(index);
     }
+
+    public boolean hasEventClash(Event newEvent) {
+        int newStart = Integer.parseInt(newEvent.getStartTime());
+        int newEnd = Integer.parseInt(newEvent.getEndTime());
+
+        if (newStart >= newEnd) {
+            return true;
+        }
+
+        for (Task t : tasks) {
+            if (t instanceof Event) {
+                Event existing = (Event) t;
+
+                int existStart = Integer.parseInt(existing.getStartTime());
+                int existEnd = Integer.parseInt(existing.getEndTime());
+
+                if (newStart < existEnd && newEnd > existStart) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
