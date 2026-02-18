@@ -12,11 +12,10 @@ public class Parser {
     }
 
     public static ParsedInput parse(String input) throws EmptyDescException {
-        if (input.isEmpty()) {
+        String trimmedInput = input.trim();
+        if (trimmedInput.isEmpty()) {
             throw new EmptyDescException("command");
         }
-
-        String trimmedInput = input.trim(); // Using explanatory name
         assert !trimmedInput.isEmpty() : "Input is empty, yaar!";
 
         String[] parts = trimmedInput.split(" ", 2);
