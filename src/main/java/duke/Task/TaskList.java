@@ -39,7 +39,7 @@ public class TaskList {
         return taski;
     }
 
-    public int size() {
+    public int getSize() {
         return tasks.size();
     }
 
@@ -69,5 +69,4 @@ public class TaskList {
         }
         return false;
     }
-
 }

@@ -102,7 +102,7 @@ public class Fuzzy {
         storage.saveTasks(list);
 
         return MESSAGE_TASK_ADDED + newTodo
-                + "\nNow you have " + list.size() + " tasks in the list.";
+                + "\nNow you have " + list.getSize() + " tasks in the list.";
     }
 
     private String handleDeadline(String details) {
@@ -125,7 +125,7 @@ public class Fuzzy {
             storage.saveTasks(list);
 
             return MESSAGE_TASK_ADDED + newDeadline
-                    + "\nNow you have " + list.size() + " tasks in the list.";
+                    + "\nNow you have " + list.getSize() + " tasks in the list.";
 
         } catch (IllegalArgumentException e) {
             return e.getMessage();
@@ -144,7 +144,7 @@ public class Fuzzy {
 
         return "Ok madam. I've removed this task:\n"
                 + removedTask
-                + "\nNow you have " + list.size() + " tasks in the list.";
+                + "\nNow you have " + list.getSize() + " tasks in the list.";
     }
 
 
@@ -177,7 +177,7 @@ public class Fuzzy {
             storage.saveTasks(list);
 
             return MESSAGE_TASK_ADDED + newEvent
-                    + "\nNow you have " + list.size() + " tasks in the list.";
+                    + "\nNow you have " + list.getSize() + " tasks in the list.";
 
         } catch (Exception e) {
             return "Format: event description /from HHMM /to HHMM";
