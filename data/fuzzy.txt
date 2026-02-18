@@ -1,8 +1,2 @@
-D | 0 | eat food | 2020-12-01
-T | 0 | eat dinner
-D | 0 | eat food | 2005-01-16
-T | 0 | eat food
-T | 0 | eat food
-T | 0 | eat food
-T | 0 | eat food
-D | 0 | eat food | 2005-01-16
+T | 1 | Finish CS2103 assignment
+D | 0 | Submit report | 2026-03-01

@@ -33,7 +33,6 @@ public class DialogBox extends HBox {
      */
     private DialogBox(String text, Image img) {
         try {
-            // This path must match your resources/view folder structure
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
@@ -44,6 +43,11 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+
+        // Resize avatar to make layout more compact
+        displayPicture.setFitWidth(60);
+        displayPicture.setFitHeight(60);
+        displayPicture.setPreserveRatio(true);
     }
 
     /**
@@ -56,7 +60,7 @@ public class DialogBox extends HBox {
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
         setAlignment(Pos.TOP_LEFT);
-        dialog.getStyleClass().add("reply-label"); // Connects to your CSS
+        dialog.getStyleClass().add("reply-label");
     }
 
     /**
