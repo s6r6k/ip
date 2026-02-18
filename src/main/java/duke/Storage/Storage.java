@@ -1,4 +1,5 @@
 package duke.Storage;
+
 import duke.Task.*;
 
 import java.io.File;
@@ -8,23 +9,29 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * @param filePath the path of the file where tasks will be saved and loaded
+ * Handles saving and loading of tasks to and from a file.
+ * Ensures task data persists between program runs.
  */
 public class Storage {
 
     private final String filePath;
 
+    /**
+     * Creates a Storage instance for the given file path.
+     *
+     * @param filePath Path of the file where tasks will be saved and loaded.
+     */
     public Storage(String filePath) {
         assert filePath != null : "Filepath shld not be null";
         this.filePath = filePath;
     }
 
     /**
-     * Saves all tasks in the given TaskList to the file
-     * Create "./data" folder if non-existent.
-     * @param list the TaskList containing tasks to save
+     * Saves all tasks in the given TaskList to the file.
+     * Creates the "./data" folder if it does not exist.
+     *
+     * @param list The TaskList containing tasks to save.
      */
-
     public void saveTasks(TaskList list) {
         assert list != null : "TaskList should not be null";
         try {
@@ -68,7 +75,9 @@ public class Storage {
     }
 
     /**
-     * @return an ArrayList of Tasks loaded from the file
+     * Loads tasks from the storage file.
+     *
+     * @return An ArrayList of Tasks loaded from the file.
      */
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> list = new ArrayList<>();
@@ -93,19 +102,19 @@ public class Storage {
                 Task task = null;
 
                 switch (type) {
-                    case "T":
-                        task = new ToDo(name);
-                        break;
-                    case "D":
-                        if (parts.length < 4) continue;
-                        task = new Deadline(parts[3], name);
-                        break;
-                    case "E":
-                        if (parts.length < 4) continue;
-                        String[] times = parts[3].split("-");
-                        if (times.length < 2) continue;
-                        task = new Event(times[0], times[1], name);
-                        break;
+                case "T":
+                    task = new ToDo(name);
+                    break;
+                case "D":
+                    if (parts.length < 4) continue;
+                    task = new Deadline(parts[3], name);
+                    break;
+                case "E":
+                    if (parts.length < 4) continue;
+                    String[] times = parts[3].split("-");
+                    if (times.length < 2) continue;
+                    task = new Event(times[0], times[1], name);
+                    break;
                 }
 
                 if (task != null && done) {

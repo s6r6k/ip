@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 
 /**
  * Represents a task with a specific deadline.
- * This class uses LocalDate to handle date parsing and formatting.
+ * Uses LocalDate for parsing and formatting date values.
  */
 public class Deadline extends Task {
     private static final String OUTPUT_DATE_FORMAT = "MMM dd yyyy";
@@ -14,6 +14,13 @@ public class Deadline extends Task {
 
     private final LocalDate deadlineDate;
 
+    /**
+     * Creates a Deadline task with the given description and date.
+     *
+     * @param dateString Deadline date in yyyy-mm-dd format.
+     * @param description Description of the task.
+     * @throws IllegalArgumentException if the date format is invalid.
+     */
     public Deadline(String dateString, String description) {
         super(description);
         assert description != null : "Task description should not be null";
@@ -26,10 +33,20 @@ public class Deadline extends Task {
         }
     }
 
+    /**
+     * Returns the deadline date of this task.
+     *
+     * @return Deadline as a LocalDate.
+     */
     public LocalDate getDeadline() {
         return this.deadlineDate;
     }
 
+    /**
+     * Returns the string representation of the deadline task.
+     *
+     * @return Formatted task string with deadline.
+     */
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(OUTPUT_DATE_FORMAT);

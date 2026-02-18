@@ -10,6 +10,11 @@ import duke.Task.Event;
 import duke.Storage.Storage;
 import duke.Ui.Ui;
 
+/**
+ * The main logic class for the Fuzzy chatbot.
+ * It processes user input, delegates commands, and coordinates between
+ * the UI, storage, and task list.
+ */
 public class Fuzzy {
 
     private static final String DATA_FILE_PATH = "./data/fuzzy.txt";
@@ -24,16 +29,32 @@ public class Fuzzy {
     private final TaskList list;
     private final Ui ui;
 
+    /**
+     * Constructs a Fuzzy chatbot instance.
+     * Initializes storage, loads saved tasks, and prepares the UI.
+     */
     public Fuzzy() {
         storage = new Storage(DATA_FILE_PATH);
         list = new TaskList(storage.loadTasks());
         ui = new Ui();
     }
 
+    /**
+     * Returns the greeting message shown when the chatbot starts.
+     *
+     * @return Greeting message for the user.
+     */
     public String getGreeting() {
         return "Hello Madam! I'm Fuzzy.\n At your service😘";
     }
 
+    /**
+     * Processes user input and returns the chatbot's response.
+     * Handles parsing errors and runtime exceptions gracefully.
+     *
+     * @param input User input string.
+     * @return Response message to be displayed to the user.
+     */
     public String getResponse(String input) {
         try {
             ParsedInput parsedInput = Parser.parse(input);
@@ -52,6 +73,12 @@ public class Fuzzy {
         }
     }
 
+    /**
+     * Executes the command based on the parsed input.
+     *
+     * @param parsedInput Parsed command and details.
+     * @return Result message after executing the command.
+     */
     private String handleCommand(ParsedInput parsedInput) {
         Parser.CommandType type = parsedInput.getCommandType();
         String details = parsedInput.getDetails();
@@ -86,6 +113,12 @@ public class Fuzzy {
         }
     }
 
+    /**
+     * Marks a task as completed.
+     *
+     * @param details Task index provided by the user.
+     * @return Confirmation message.
+     */
     private String handleMark(String details) {
         int taskIndex = Integer.parseInt(details) - 1;
         Task taskToMark = list.get(taskIndex);
@@ -96,6 +129,12 @@ public class Fuzzy {
         return MESSAGE_MARK_SUCCESS + taskToMark;
     }
 
+    /**
+     * Adds a new todo task.
+     *
+     * @param details Description of the todo task.
+     * @return Confirmation message or error message.
+     */
     private String handleTodo(String details) {
         if (details == null || details.isBlank()) {
             return "Babe the todo description can't be empty.";
@@ -109,6 +148,12 @@ public class Fuzzy {
                 + "\nNow you have " + list.getSize() + " tasks in the list.";
     }
 
+    /**
+     * Adds a new deadline task.
+     *
+     * @param details Deadline description and date.
+     * @return Confirmation message or format error.
+     */
     private String handleDeadline(String details) {
         if (details == null || details.isBlank()) {
             return "Format: deadline description /by yyyy-mm-dd";
@@ -136,6 +181,12 @@ public class Fuzzy {
         }
     }
 
+    /**
+     * Removes a task from the list.
+     *
+     * @param details Task index provided by the user.
+     * @return Confirmation message.
+     */
     private String handleRemove(String details) {
         if (details == null || details.isBlank()) {
             return "Babe tell me which task number to remove.";
@@ -151,7 +202,12 @@ public class Fuzzy {
                 + "\nNow you have " + list.getSize() + " tasks in the list.";
     }
 
-
+    /**
+     * Adds a new event task after checking for time clashes.
+     *
+     * @param details Event description and time range.
+     * @return Confirmation message or error message.
+     */
     private String handleEvent(String details) {
         if (details == null || details.isBlank()) {
             return "Format: event description /from HHMM /to HHMM";
@@ -170,12 +226,10 @@ public class Fuzzy {
 
             Event newEvent = new Event(start, end, description);
 
-            boolean added;
             if (list.hasEventClash(newEvent)) {
                 return "Babe this event clashes with another event.";
             } else {
                 list.add(newEvent);
-                added = true;
             }
 
             storage.saveTasks(list);
