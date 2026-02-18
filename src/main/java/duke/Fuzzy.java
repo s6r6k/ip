@@ -2,7 +2,11 @@ package duke;
 
 import duke.Parser.ParsedInput;
 import duke.Parser.Parser;
-import duke.Task.*;
+import duke.Task.Task;
+import duke.Task.TaskList;
+import duke.Task.ToDo;
+import duke.Task.Deadline;
+import duke.Task.Event;
 import duke.Storage.Storage;
 import duke.Ui.Ui;
 
