@@ -156,6 +156,9 @@ Fuzzy handles common user mistakes gracefully, such as:
 
 Helpful error messages will be shown to guide the user.
 
+![img.png](img.png)
+Also, will detect if there are any clashing events
+
 ---
 
 ## Saving and Loading
