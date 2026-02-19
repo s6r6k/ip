@@ -24,6 +24,7 @@ public class Fuzzy {
     private static final String MESSAGE_ERROR = "Baby smth is wrong. Check if you put the details";
     private static final String MESSAGE_MARK_SUCCESS = "Amazing! Well done baby, I've marked it as done:\n";
     private static final String MESSAGE_TASK_ADDED = "Ok madam. I've added this task:\n";
+    private static final String MESSAGE_UNMARK_SUCCESS = "Alright bubs, I've marked this task as not done yet:\n";
 
     private final Storage storage;
     private final TaskList list;
@@ -96,6 +97,9 @@ public class Fuzzy {
         case MARK:
             return handleMark(details);
 
+        case UNMARK:
+            return handleUnmark(details);
+
         case TODO:
             return handleTodo(details);
 
@@ -128,6 +132,23 @@ public class Fuzzy {
 
         return MESSAGE_MARK_SUCCESS + taskToMark;
     }
+
+    /**
+     * Marks a task as not completed.
+     *
+     * @param details Task index provided by the user.
+     * @return Confirmation message.
+     */
+    private String handleUnmark(String details) {
+        int taskIndex = Integer.parseInt(details) - 1;
+        Task taskToUnmark = list.get(taskIndex);
+
+        taskToUnmark.unmark();
+        storage.saveTasks(list);
+
+        return MESSAGE_UNMARK_SUCCESS + taskToUnmark;
+    }
+
 
     /**
      * Adds a new todo task.

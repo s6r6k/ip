@@ -22,6 +22,7 @@ public class Task {
         this.completed = false;
     }
 
+
     public String toString() {
         String front = "";
         if (this.isCompleted()) {

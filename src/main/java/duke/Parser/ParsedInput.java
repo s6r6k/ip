@@ -6,7 +6,7 @@ package duke.Parser;
  */
 public class ParsedInput {
     private final Parser.CommandType commandType;
-    private final String argumentDetails; // More descriptive than 'details'
+    private final String argumentDetails;
 
     public ParsedInput(Parser.CommandType commandType, String argumentDetails) {
         this.commandType = commandType;
