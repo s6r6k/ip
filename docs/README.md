@@ -3,7 +3,7 @@
 Welcome to **Fuzzy**!
 Fuzzy is a friendly task manager chatbot that helps you manage your daily tasks through a simple chat interface.
 
-You can add todos, deadlines, and events, mark tasks as done, remove tasks, and view your task list — all using easy text commands.
+You can add todos, deadlines, and events, mark tasks as done, unmark them, remove tasks, and view your task list — all using easy text commands.
 
 ---
 
@@ -125,6 +125,27 @@ The selected task is marked as done.
 
 ---
 
+### Unmark a Task
+
+Marks a completed task as not done.
+
+**Command**
+
+```
+unmark INDEX
+```
+
+**Example**
+
+```
+unmark 2
+```
+
+**Result**
+The selected task is marked as not done.
+
+---
+
 ### Remove a Task
 
 Deletes a task from the list.
@@ -157,7 +178,8 @@ Fuzzy handles common user mistakes gracefully, such as:
 Helpful error messages will be shown to guide the user.
 
 ![img.png](img.png)
-Also, will detect if there are any clashing events
+
+Fuzzy will also detect and prevent events that clash with existing events.
 
 ---
 
@@ -177,6 +199,7 @@ When the application is restarted, your tasks will be loaded from the saved file
 | Add event    | `event DESCRIPTION /from START /to END` |
 | List tasks   | `list`                                  |
 | Mark task    | `mark INDEX`                            |
+| Unmark task  | `unmark INDEX`                          |
 | Remove task  | `remove INDEX`                          |
 
 ---
