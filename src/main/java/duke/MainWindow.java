@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
  * Handles user input, displays dialog boxes, and connects the UI to the Fuzzy logic.
  */
 public class MainWindow extends AnchorPane {
+
     @FXML private ScrollPane scrollPane;
     @FXML private VBox dialogContainer;
     @FXML private TextField userInput;
@@ -28,10 +29,20 @@ public class MainWindow extends AnchorPane {
 
     /**
      * Initializes the UI components after FXML loading.
-     * Automatically scrolls the dialog container to the bottom when new messages are added.
+     * Enables smooth touchpad scrolling and auto-scroll to the bottom.
      */
     @FXML
     public void initialize() {
+        // Make dialog container fill the width of the ScrollPane
+        scrollPane.setFitToWidth(true);
+
+        // Enable touchpad and mouse drag scrolling anywhere in the chat area
+        scrollPane.setPannable(true);
+
+        // Remove horizontal scrollbar (chat apps don't need it)
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        // Automatically scroll to bottom when new messages are added
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
@@ -55,12 +66,16 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = fuzzy.getResponse(input); // Calls your specific Fuzzy logic
+        String response = fuzzy.getResponse(input);
+
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getDukeDialog(response, dukeImage)
         );
+
         userInput.clear();
+
+        // Exit after "bye"
         if (input.trim().equals("bye")) {
             PauseTransition delay = new PauseTransition(Duration.seconds(1));
             delay.setOnFinished(event -> Platform.exit());

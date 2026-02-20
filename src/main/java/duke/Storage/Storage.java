@@ -81,51 +81,75 @@ public class Storage {
      */
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> list = new ArrayList<>();
-        File file = new File(filePath);
-
+        File file = new File(this.filePath);
         if (!file.exists()) {
             return list;
         }
 
         try {
             Scanner sc = new Scanner(file);
+
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] parts = line.split(" \\| ");
+
                 if (parts.length < 3) {
                     continue;
                 }
 
                 String type = parts[0];
                 boolean done = parts[1].equals("1");
-                String name = parts[2];
-                Task task = null;
 
-                switch (type) {
-                case "T":
+                Task task = null;
+                String name;
+                String extra = null;
+
+                if (type.equals("T")) {
+                    StringBuilder nameBuilder = new StringBuilder(parts[2]);
+                    for (int i = 3; i < parts.length; i++) {
+                        nameBuilder.append(" | ").append(parts[i]);
+                    }
+                    name = nameBuilder.toString();
                     task = new ToDo(name);
-                    break;
-                case "D":
-                    if (parts.length < 4) continue;
-                    task = new Deadline(parts[3], name);
-                    break;
-                case "E":
-                    if (parts.length < 4) continue;
-                    String[] times = parts[3].split("-");
-                    if (times.length < 2) continue;
-                    task = new Event(times[0], times[1], name);
-                    break;
+                }
+                else if (type.equals("D") || type.equals("E")) {
+                    if (parts.length < 4) {
+                        continue;
+                    }
+
+                    extra = parts[parts.length - 1];
+
+                    StringBuilder nameBuilder = new StringBuilder(parts[2]);
+                    for (int i = 3; i < parts.length - 1; i++) {
+                        nameBuilder.append(" | ").append(parts[i]);
+                    }
+                    name = nameBuilder.toString();
+
+                    try {
+                        if (type.equals("D")) {
+                            task = new Deadline(extra, name);
+                        } else {
+                            String[] times = extra.split("-");
+                            if (times.length < 2) {
+                                continue;
+                            }
+                            task = new Event(times[0], times[1], name);
+                        }
+                    } catch (Exception e) {
+                        continue;
+                    }
                 }
 
                 if (task != null && done) {
                     task.complete();
                 }
+
                 if (task != null) {
                     list.add(task);
                 }
             }
-            sc.close();
 
+            sc.close();
         } catch (IOException e) {
             System.out.println("Error loading tasks: " + e.getMessage());
         }
