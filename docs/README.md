@@ -198,10 +198,10 @@ When the application is restarted, your tasks will be loaded from the saved file
 | Add deadline | `deadline DESCRIPTION /by DATE`         |
 | Add event    | `event DESCRIPTION /from START /to END` |
 | List tasks   | `list`                                  |
+| Find tasks   | `find KEYWORD`                          |
 | Mark task    | `mark INDEX`                            |
 | Unmark task  | `unmark INDEX`                          |
 | Remove task  | `remove INDEX`                          |
 
----
 
 Enjoy staying organized with **Fuzzy**!

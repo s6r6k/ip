@@ -30,32 +30,16 @@ public class Fuzzy {
     private final TaskList list;
     private final Ui ui;
 
-    /**
-     * Constructs a Fuzzy chatbot instance.
-     * Initializes storage, loads saved tasks, and prepares the UI.
-     */
     public Fuzzy() {
         storage = new Storage(DATA_FILE_PATH);
         list = new TaskList(storage.loadTasks());
         ui = new Ui();
     }
 
-    /**
-     * Returns the greeting message shown when the chatbot starts.
-     *
-     * @return Greeting message for the user.
-     */
     public String getGreeting() {
         return "Hello Madam! I'm Fuzzy.\n At your service😘";
     }
 
-    /**
-     * Processes user input and returns the chatbot's response.
-     * Handles parsing errors and runtime exceptions gracefully.
-     *
-     * @param input User input string.
-     * @return Response message to be displayed to the user.
-     */
     public String getResponse(String input) {
         try {
             ParsedInput parsedInput = Parser.parse(input);
@@ -74,12 +58,6 @@ public class Fuzzy {
         }
     }
 
-    /**
-     * Executes the command based on the parsed input.
-     *
-     * @param parsedInput Parsed command and details.
-     * @return Result message after executing the command.
-     */
     private String handleCommand(ParsedInput parsedInput) {
         Parser.CommandType type = parsedInput.getCommandType();
         String details = parsedInput.getDetails();
@@ -109,6 +87,9 @@ public class Fuzzy {
         case EVENT:
             return handleEvent(details);
 
+        case FIND:
+            return handleFind(details);
+
         case UNKNOWN:
             return MESSAGE_UNKNOWN;
 
@@ -117,12 +98,31 @@ public class Fuzzy {
         }
     }
 
-    /**
-     * Marks a task as completed.
-     *
-     * @param details Task index provided by the user.
-     * @return Confirmation message.
-     */
+    private String handleFind(String keyword) {
+        StringBuilder result = new StringBuilder();
+        int count = 0;
+
+        for (int i = 0; i < list.getSize(); i++) {
+            Task task = list.get(i);
+            if (task.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                if (count == 0) {
+                    result.append("Here are the matching tasks in your list:\n");
+                }
+                count++;
+                result.append(count)
+                        .append(". ")
+                        .append(task)
+                        .append("\n");
+            }
+        }
+
+        if (count == 0) {
+            return "No matching tasks found.";
+        }
+
+        return result.toString();
+    }
+
     private String handleMark(String details) {
         int taskIndex = Integer.parseInt(details) - 1;
         Task taskToMark = list.get(taskIndex);
@@ -133,12 +133,6 @@ public class Fuzzy {
         return MESSAGE_MARK_SUCCESS + taskToMark;
     }
 
-    /**
-     * Marks a task as not completed.
-     *
-     * @param details Task index provided by the user.
-     * @return Confirmation message.
-     */
     private String handleUnmark(String details) {
         int taskIndex = Integer.parseInt(details) - 1;
         Task taskToUnmark = list.get(taskIndex);
@@ -149,13 +143,6 @@ public class Fuzzy {
         return MESSAGE_UNMARK_SUCCESS + taskToUnmark;
     }
 
-
-    /**
-     * Adds a new todo task.
-     *
-     * @param details Description of the todo task.
-     * @return Confirmation message or error message.
-     */
     private String handleTodo(String details) {
         if (details == null || details.isBlank()) {
             return "Babe the todo description can't be empty.";
@@ -169,12 +156,6 @@ public class Fuzzy {
                 + "\nNow you have " + list.getSize() + " tasks in the list.";
     }
 
-    /**
-     * Adds a new deadline task.
-     *
-     * @param details Deadline description and date.
-     * @return Confirmation message or format error.
-     */
     private String handleDeadline(String details) {
         if (details == null || details.isBlank()) {
             return "Format: deadline description /by yyyy-mm-dd";
@@ -202,12 +183,6 @@ public class Fuzzy {
         }
     }
 
-    /**
-     * Removes a task from the list.
-     *
-     * @param details Task index provided by the user.
-     * @return Confirmation message.
-     */
     private String handleRemove(String details) {
         if (details == null || details.isBlank()) {
             return "Babe tell me which task number to remove.";
@@ -223,12 +198,6 @@ public class Fuzzy {
                 + "\nNow you have " + list.getSize() + " tasks in the list.";
     }
 
-    /**
-     * Adds a new event task after checking for time clashes.
-     *
-     * @param details Event description and time range.
-     * @return Confirmation message or error message.
-     */
     private String handleEvent(String details) {
         if (details == null || details.isBlank()) {
             return "Format: event description /from HHMM /to HHMM";

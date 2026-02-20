@@ -40,6 +40,37 @@ public class TaskList {
     }
 
     /**
+     * Returns tasks that contain the given keyword.
+     *
+     * @param keyword Word to search for.
+     * @return Formatted matching task list or a message if none found.
+     */
+    public String findTasks(String keyword) {
+        StringBuilder result = new StringBuilder();
+        int count = 0;
+
+        for (int i = 0; i < this.tasks.size(); i++) {
+            Task task = this.tasks.get(i);
+            if (task.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                if (count == 0) {
+                    result.append("Here are the matching tasks in your list:\n");
+                }
+                count++;
+                result.append(count)
+                        .append(".")
+                        .append(task.toString())
+                        .append("\n");
+            }
+        }
+
+        if (count == 0) {
+            return "No matching tasks found.";
+        }
+
+        return result.toString().trim();
+    }
+
+    /**
      * Adds a task to the list.
      *
      * @param task Task to be added.
